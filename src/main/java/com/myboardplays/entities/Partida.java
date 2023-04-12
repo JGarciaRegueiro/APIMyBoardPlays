@@ -1,7 +1,7 @@
 package com.myboardplays.entities;
 
 import java.io.Serializable;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
 import java.util.Objects;
