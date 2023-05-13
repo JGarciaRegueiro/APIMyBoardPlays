@@ -1,8 +1,11 @@
 package com.myboardplays.modelo;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.myboardplays.entities.Juego;
 import com.myboardplays.entities.Partida;
 import com.myboardplays.repository.PartidaRepository;
 
@@ -11,6 +14,12 @@ public class PartidaDaoImpl implements PartidaDao {
 	
 	@Autowired 
 	private PartidaRepository prepo;
+	
+	@Override
+	public List<Juego> consultarTodos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public Partida consultarPartida(int idPartida) {

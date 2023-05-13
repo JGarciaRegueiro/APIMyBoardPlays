@@ -1,5 +1,7 @@
 package com.myboardplays.modelo;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +14,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	@Autowired
 	private UsuarioRepository urepo;
 
+	@Override
+	public List<Usuario> consultarTodos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@Override
 	public Usuario consultarUsuario(int idUsuario) {
 		return urepo.findById(idUsuario).orElse(null);

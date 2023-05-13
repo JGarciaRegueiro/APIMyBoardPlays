@@ -1,5 +1,7 @@
 package com.myboardplays.apirest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,11 @@ public class MyboardplaysApiRest {
 	 */
 	@Autowired
 	private UsuarioDao udao;
+	
+	@GetMapping ("/usuarios")
+	public List<Usuario> consultarUsuarios(){
+		return udao.consultarTodos();
+	}
 	
 	@GetMapping ("/usuario/consultar/{id}")
 	public Usuario consultarUsuario (@PathVariable ("id") int idUsuario) {
@@ -55,6 +62,11 @@ public class MyboardplaysApiRest {
 	@Autowired
 	private JuegoDao jdao;
 	
+	@GetMapping ("/juegos")
+	public List<Juego> consultarJuegos(){
+		return jdao.consultarTodos();
+	}
+	
 	@GetMapping ("/juego/consultar/{id}")
 	public Juego consultarJuego (@PathVariable int idJuego) {
 		return jdao.consultarJuego(idJuego);
@@ -83,6 +95,11 @@ public class MyboardplaysApiRest {
 	 */
 	@Autowired
 	private PartidaDao pdao;
+	
+	@GetMapping ("/partidas")
+	public List<Juego> consultarPartidas(){
+		return pdao.consultarTodos();
+	}
 	
 	@GetMapping ("/partida/consultar/{id}")
 	public Partida consultarPartida (@PathVariable int idPartida) {
