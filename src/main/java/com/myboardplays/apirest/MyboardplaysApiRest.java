@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.myboardplays.entities.Juego;
 import com.myboardplays.entities.Partida;
@@ -41,6 +42,7 @@ public class MyboardplaysApiRest {
 
 	@PostMapping ("/usuario/alta")
 	public Usuario altaUsuario (@RequestBody Usuario usuario) {
+		usuario.setPass(new BCryptPasswordEncoder().encode(usuario.getPass()));
 		usuario.setFechaAlta(new Date());
 		udao.altaUsuario(usuario);
 		return usuario;
