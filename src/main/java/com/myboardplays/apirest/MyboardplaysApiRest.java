@@ -1,5 +1,6 @@
 package com.myboardplays.apirest;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ public class MyboardplaysApiRest {
 
 	@PostMapping ("/usuario/alta")
 	public Usuario altaUsuario (@RequestBody Usuario usuario) {
+		usuario.setFechaAlta(new Date());
 		udao.altaUsuario(usuario);
 		return usuario;
 	}
