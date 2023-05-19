@@ -4,10 +4,13 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -71,27 +74,34 @@ public class MyboardplaysApiRest {
 		return jdao.consultarTodos();
 	}
 	
-	@GetMapping ("/juego/consultar/{id}")
-	public Juego consultarJuego (@PathVariable int idJuego) {
-		return jdao.consultarJuego(idJuego);
+	@GetMapping ("/juego/consultar/{idJuego}")
+	public ResponseEntity<?> consultarJuego (@PathVariable int idJuego) {
+		 Juego juegos = jdao.consultarJuego(idJuego);
+		 if(juegos == null) {
+			 return new ResponseEntity<String>("No se ha encontrado el juego", HttpStatus.NOT_FOUND);
+		 }
+			 return new ResponseEntity<Juego>(juegos,HttpStatus.OK);
 	}
 
 	@PostMapping ("/juego/alta")
-	public Juego altaJuego (Juego juego) {
+	public Juego altaJuego (@RequestBody Juego juego) {
 		jdao.altaJuego(juego);
 		return juego;
 	}
 	
-	@PostMapping ("/juego/modificar")
-	public Juego modificarJuego (Juego juego) {
-		jdao.modificarJuego(juego);
-		return juego;
+	@PutMapping ("/juego/modificar")
+	public ResponseEntity<?> modificarJuego(@PathVariable int idJuego, @RequestBody Juego juegos) {
+		 return null;
 	}
 	
-	@DeleteMapping ("juego/eliminar/{id}")
-	public String modificarJuego (@PathVariable int idJuego) {
-		jdao.eliminarJuego(idJuego);
-		return "Juego eliminado";
+	@DeleteMapping("/juego/eliminar/{idJuego}")
+	public ResponseEntity<String> eliminarJuego(@PathVariable int idJuego) {
+		 Juego juegos = jdao.consultarJuego(idJuego);
+		 if(juegos == null) {
+			 return new ResponseEntity<String>("No se ha encontrado el juego", HttpStatus.NOT_FOUND);
+		 }
+		 jdao.eliminarJuego(idJuego);
+			 return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	/**
