@@ -97,7 +97,7 @@ public class MyboardplaysApiRest {
 	public ResponseEntity<String> modificarJuego(@PathVariable int idJuego, @RequestBody Juego detallesJuego) {
 		Juego juegos = jdao.consultarJuego(idJuego);
 		 if(juegos == null) {
-			 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("el jeugo nos e ha encontrado");}
+			 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("el juego no se ha encontrado");}
 		
 		juegos.setId(detallesJuego.getId());
 		juegos.setNombre(detallesJuego.getNombre());
@@ -109,7 +109,7 @@ public class MyboardplaysApiRest {
 	
 		altaJuego(juegos);
 		
-		return ResponseEntity.ok("El juego se ha modificado correctamente");
+		return ResponseEntity.ok(null);
 		}
 	
 	
