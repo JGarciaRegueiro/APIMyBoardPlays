@@ -17,7 +17,7 @@ public class JuegoDaoImpl implements JuegoDao {
 	@Override
 	public List<Juego> consultarTodos() {
 		// TODO Auto-generated method stub
-		return null;
+		return jrepo.findAll();
 	}
 	
 	@Override
