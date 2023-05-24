@@ -112,7 +112,7 @@ public class MyboardplaysApiRest {
 		return ResponseEntity.ok(null);
 		}
 	
-	
+	//prueba
 	@DeleteMapping("/juego/eliminar/{idJuego}")
 	public ResponseEntity<String> eliminarJuego(@PathVariable int idJuego) {
 		 Juego juegos = jdao.consultarJuego(idJuego);
@@ -139,7 +139,6 @@ public class MyboardplaysApiRest {
 		return pdao.consultarPartida(idPartida);
 	}
 
-	//prueba partida
 	@PostMapping ("/partida/alta")
 	public Partida altaPartida (Partida partida) {
 		pdao.altaPartida(partida);
