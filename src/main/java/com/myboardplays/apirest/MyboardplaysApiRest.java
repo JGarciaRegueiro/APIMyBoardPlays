@@ -139,6 +139,7 @@ public class MyboardplaysApiRest {
 		return pdao.consultarPartida(idPartida);
 	}
 
+	//prueba partida
 	@PostMapping ("/partida/alta")
 	public Partida altaPartida (Partida partida) {
 		pdao.altaPartida(partida);
