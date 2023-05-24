@@ -112,7 +112,8 @@ public class MyboardplaysApiRest {
 		return ResponseEntity.ok(null);
 		}
 	
-	//prueba 2
+	//prueba 3
+	
 	@DeleteMapping("/juego/eliminar/{idJuego}")
 	public ResponseEntity<String> eliminarJuego(@PathVariable int idJuego) {
 		 Juego juegos = jdao.consultarJuego(idJuego);
