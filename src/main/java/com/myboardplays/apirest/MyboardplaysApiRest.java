@@ -57,7 +57,7 @@ public class MyboardplaysApiRest {
 		return usuario;
 	}
 	
-	@PostMapping ("/usuario/modificar")
+	@PutMapping ("/usuario/modificar")
 	public Usuario modificarUsuario (Usuario usuario) {
 		udao.modificarUsuario(usuario);
 		return usuario;
