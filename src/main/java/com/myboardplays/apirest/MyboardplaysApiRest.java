@@ -111,7 +111,7 @@ public class MyboardplaysApiRest {
 	private PartidaDao pdao;
 	
 	@GetMapping ("/partidas")
-	public List<Juego> consultarPartidas(){
+	public List<Partida> consultarPartidas(){
 		return pdao.consultarTodos();
 	}
 	

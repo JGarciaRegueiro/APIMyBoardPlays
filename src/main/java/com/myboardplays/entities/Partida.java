@@ -2,7 +2,6 @@ package com.myboardplays.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.sql.Time;
 import java.util.Date;
 import java.util.Objects;
 
@@ -21,7 +20,7 @@ public class Partida implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	private Time duracion;
+	private int duracion;
 
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
@@ -49,11 +48,11 @@ public class Partida implements Serializable {
 		this.id = id;
 	}
 
-	public Time getDuracion() {
+	public int getDuracion() {
 		return this.duracion;
 	}
 
-	public void setDuracion(Time duracion) {
+	public void setDuracion(int duracion) {
 		this.duracion = duracion;
 	}
 
