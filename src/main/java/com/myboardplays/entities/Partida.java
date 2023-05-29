@@ -2,6 +2,9 @@ package com.myboardplays.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.Date;
 import java.util.Objects;
 
@@ -28,11 +31,13 @@ public class Partida implements Serializable {
 	private String ubicacion;
 
 	//bi-directional many-to-one association to Juego
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="id_juego")
 	private Juego juego;
 
 	//bi-directional many-to-one association to Usuario
+	@JsonManagedReference 
 	@ManyToOne
 	@JoinColumn(name="creador")
 	private Usuario usuario;

@@ -2,6 +2,9 @@ package com.myboardplays.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -10,6 +13,7 @@ import java.util.Objects;
  * The persistent class for the juegos database table.
  * 
  */
+
 @Entity
 @Table(name="juegos")
 @NamedQuery(name="Juego.findAll", query="SELECT j FROM Juego j")
@@ -33,6 +37,7 @@ public class Juego implements Serializable {
 	private String nombre;
 
 	//bi-directional many-to-one association to Partida
+	@JsonBackReference
 	@OneToMany(mappedBy="juego")
 	private List<Partida> partidas;
 

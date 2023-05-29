@@ -136,7 +136,7 @@ public class MyboardplaysApiRest {
 	}
 	
 	@GetMapping ("/partida/consultar/{id}")
-	public Partida consultarPartida (@PathVariable int idPartida) {
+	public Partida consultarPartida (@PathVariable("id") int idPartida) {
 		return pdao.consultarPartida(idPartida);
 	}
 

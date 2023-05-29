@@ -2,6 +2,9 @@ package com.myboardplays.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -32,6 +35,7 @@ public class Usuario implements Serializable {
 	private String pass;
 
 	//bi-directional many-to-one association to Partida
+	@JsonBackReference
 	@OneToMany(mappedBy="usuario")
 	private List<Partida> partidas;
 
