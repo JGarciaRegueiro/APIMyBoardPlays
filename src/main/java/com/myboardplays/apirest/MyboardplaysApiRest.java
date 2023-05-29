@@ -148,14 +148,7 @@ public class MyboardplaysApiRest {
 
 	@PostMapping ("/partida/alta")
 	public Partida altaPartida (@RequestBody Partida partida){
-		Partida partidaCreador = new Partida();
-		partidaCreador.setId(pdao.obtenerUltimoIdLibre()+1);
-		partidaCreador.setUsuario(partida.getUsuario());
-		partidaCreador.setUbicacion(partida.getUbicacion());
-		partidaCreador.setFecha(partida.getFecha());
-		//partidaCreador.setJuego(jdao.buscarJuegoPorNombre(partida.getNombre()));
-		partidaCreador.setDuracion(partida.getDuracion());
-		pdao.altaPartida(partidaCreador);
+		pdao.altaPartida(partida);
 		return partida;
 	}
 	
