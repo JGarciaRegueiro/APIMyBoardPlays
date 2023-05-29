@@ -1,6 +1,7 @@
 package com.myboardplays.modelo;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -54,5 +55,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		}
 		return true;
 	}
+
+	@Override
+	public Optional<Usuario> consultarUsuarioByEmail(String email) {
+		// TODO Auto-generated method stub
+		return urepo.findByEmail(email);
+	}
+
 
 }

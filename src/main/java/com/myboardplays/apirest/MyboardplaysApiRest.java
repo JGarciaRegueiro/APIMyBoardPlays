@@ -2,6 +2,7 @@ package com.myboardplays.apirest;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,11 @@ public class MyboardplaysApiRest {
 	@GetMapping ("/usuarios")
 	public List<Usuario> consultarUsuarios(){
 		return udao.consultarTodos();
+	}
+	
+	@GetMapping ("/usuario/email/{email}")
+	public Optional<Usuario> consultarUsuarioByEmail(@PathVariable ("email") String email){
+		return udao.consultarUsuarioByEmail(email);
 	}
 	
 	@GetMapping ("/usuario/consultar/{id}")
