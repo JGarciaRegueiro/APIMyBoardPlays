@@ -11,4 +11,5 @@ public interface PartidaDao {
 	boolean altaPartida (Partida partida);
 	boolean modificarPartida (Partida partida);
 	boolean eliminarPartida (int idPartida);
+	int obtenerUltimoIdLibre();
 }

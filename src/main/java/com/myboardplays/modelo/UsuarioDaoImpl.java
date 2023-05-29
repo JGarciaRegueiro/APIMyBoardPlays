@@ -17,7 +17,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	@Override
 	public List<Usuario> consultarTodos() {
 		// TODO Auto-generated method stub
-		return null;
+		return urepo.findAll();
 	}
 	
 	@Override

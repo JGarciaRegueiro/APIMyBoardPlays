@@ -57,10 +57,14 @@ public class MyboardplaysApiRest {
 		return usuario;
 	}
 	
-	@DeleteMapping ("usuario/eliminar/{id}")
-	public String modificarUsuario (@PathVariable int idUsuario) {
-		udao.eliminarUsuario(idUsuario);
-		return "Usuario eliminado";
+	@DeleteMapping("/usuario/eliminar/{idUsuario}")
+	public ResponseEntity<String> eliminarUsuario(@PathVariable int idUsuario) {
+		 Usuario usuarios = udao.consultarUsuario(idUsuario);
+		 if(usuarios == null) {
+			 return new ResponseEntity<String>("No se ha encontrado el usuario", HttpStatus.NOT_FOUND);
+		 }
+		 udao.eliminarUsuario(idUsuario);
+			 return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	/**
@@ -89,10 +93,26 @@ public class MyboardplaysApiRest {
 		return juego;
 	}
 	
-	@PutMapping ("/juego/modificar")
-	public ResponseEntity<?> modificarJuego(@PathVariable int idJuego, @RequestBody Juego juegos) {
-		 return null;
-	}
+	@PutMapping ("/juego/modificar/{idJuego}")
+	public ResponseEntity<String> modificarJuego(@PathVariable int idJuego, @RequestBody Juego detallesJuego) {
+		Juego juegos = jdao.consultarJuego(idJuego);
+		 if(juegos == null) {
+			 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("el juego no se ha encontrado");}
+		
+		juegos.setId(detallesJuego.getId());
+		juegos.setNombre(detallesJuego.getNombre());
+		juegos.setDescripcion(detallesJuego.getDescripcion());
+		juegos.setMaxParticipantes(detallesJuego.getMaxParticipantes());
+		juegos.setMinParticipantes(detallesJuego.getMinParticipantes());
+		juegos.setPartidas(detallesJuego.getPartidas());
+		juegos.setDificultad(detallesJuego.getDificultad());
+	
+		altaJuego(juegos);
+		
+		return ResponseEntity.ok(null);
+		}
+	
+	//prueba 3
 	
 	@DeleteMapping("/juego/eliminar/{idJuego}")
 	public ResponseEntity<String> eliminarJuego(@PathVariable int idJuego) {
@@ -121,8 +141,15 @@ public class MyboardplaysApiRest {
 	}
 
 	@PostMapping ("/partida/alta")
-	public Partida altaPartida (Partida partida) {
-		pdao.altaPartida(partida);
+	public Partida altaPartida (@RequestBody Partida partida){
+		Partida partidaCreador = new Partida();
+		partidaCreador.setId(pdao.obtenerUltimoIdLibre()+1);
+		partidaCreador.setUsuario(partida.getUsuario());
+		partidaCreador.setUbicacion(partida.getUbicacion());
+		partidaCreador.setFecha(partida.getFecha());
+		//partidaCreador.setJuego(jdao.buscarJuegoPorNombre(partida.getNombre()));
+		partidaCreador.setDuracion(partida.getDuracion());
+		pdao.altaPartida(partidaCreador);
 		return partida;
 	}
 	

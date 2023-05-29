@@ -54,5 +54,10 @@ public class PartidaDaoImpl implements PartidaDao {
 		}
 		return true;
 	}
+	@Override
+	public int obtenerUltimoIdLibre() {
+		return prepo.obtenerUltimoIdLibre();
+	}
+	
 
 }
