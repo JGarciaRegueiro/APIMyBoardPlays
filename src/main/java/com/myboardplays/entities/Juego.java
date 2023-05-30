@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.List;
 import java.util.Objects;
@@ -35,11 +36,10 @@ public class Juego implements Serializable {
 	private int minParticipantes;
 
 	private String nombre;
-
-	//bi-directional many-to-one association to Partida
-	@JsonBackReference
-	@OneToMany(mappedBy="juego")
-	private List<Partida> partidas;
+	
+	// Bi-directional many-to-many association to Usuario
+	@ManyToMany(mappedBy="juegos")
+	private List<Usuario> usuarios;
 
 	public Juego() {
 	}
@@ -92,28 +92,6 @@ public class Juego implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public List<Partida> getPartidas() {
-		return this.partidas;
-	}
-
-	public void setPartidas(List<Partida> partidas) {
-		this.partidas = partidas;
-	}
-
-	public Partida addPartida(Partida partida) {
-		getPartidas().add(partida);
-		partida.setJuego(this);
-
-		return partida;
-	}
-
-	public Partida removePartida(Partida partida) {
-		getPartidas().remove(partida);
-		partida.setJuego(null);
-
-		return partida;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -132,8 +110,17 @@ public class Juego implements Serializable {
 	@Override
 	public String toString() {
 		return "Juego [id=" + id + ", descripcion=" + descripcion + ", dificultad=" + dificultad + ", maxParticipantes="
-				+ maxParticipantes + ", minParticipantes=" + minParticipantes + ", nombre=" + nombre + ", partidas="
-				+ partidas + "]";
+				+ maxParticipantes + ", minParticipantes=" + minParticipantes + ", nombre=" + nombre ;
+	}
+
+	public Object getPartidas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setPartidas(Object partidas) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

@@ -6,6 +6,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -31,16 +32,23 @@ public class Partida implements Serializable {
 	private String ubicacion;
 
 	//bi-directional many-to-one association to Juego
-	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="id_juego")
 	private Juego juego;
 
-	//bi-directional many-to-one association to Usuario
-	@JsonManagedReference 
+	//bi-directional many-to-one association to Creador
 	@ManyToOne
 	@JoinColumn(name="creador")
-	private Usuario usuario;
+	private Usuario creador;
+	
+	//bi-directional many-to-one association to Usuario
+	@ManyToMany( cascade={CascadeType.PERSIST, CascadeType.MERGE})
+		@JoinTable(
+				name="usuariospartidas",
+				joinColumns={@JoinColumn(name="id_partida")},
+				inverseJoinColumns={@JoinColumn(name="id_usuario")}
+		)
+	private List<Usuario> usuario;
 
 	public Partida() {
 	}
@@ -85,12 +93,12 @@ public class Partida implements Serializable {
 		this.juego = juego;
 	}
 
-	public Usuario getUsuario() {
-		return this.usuario;
+	public Usuario getCreador() {
+		return this.creador;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setCreador(Usuario creador) {
+		this.creador = creador;
 	}
 
 	@Override
@@ -111,7 +119,7 @@ public class Partida implements Serializable {
 	@Override
 	public String toString() {
 		return "Partida [id=" + id + ", duracion=" + duracion + ", fecha=" + fecha + ", ubicacion=" + ubicacion
-				+ ", juego=" + juego + ", usuario=" + usuario + "]";
+				+ ", juego=" + juego + ", usuario=" + creador + "]";
 	}
 
 	

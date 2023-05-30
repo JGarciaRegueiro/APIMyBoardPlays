@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -35,11 +36,34 @@ public class Usuario implements Serializable {
 	private String pass;
 
 	//bi-directional many-to-one association to Partida
-	@JsonBackReference
-	@OneToMany(mappedBy="usuario")
+	@ManyToMany( cascade={CascadeType.PERSIST, CascadeType.MERGE})
+		@JoinTable(
+				name="usuariospartidas"
+				, joinColumns={
+					@JoinColumn(name="id_usuario")
+					}
+				, inverseJoinColumns={
+					@JoinColumn(name="id_partida")
+					}
+				)
 	private List<Partida> partidas;
+	
+	//bi-directional many-to-one association to Partida
+	@ManyToMany( cascade={CascadeType.PERSIST, CascadeType.MERGE})
+		@JoinTable(
+				name="usuariosjuegos"
+				, joinColumns={
+					@JoinColumn(name="id_usuario")
+					}
+				, inverseJoinColumns={
+					@JoinColumn(name="id_juego")
+					}
+				)
+	private List<Juego> juegos;
 
 	public Usuario() {
+		partidas = new ArrayList<>();
+        juegos = new ArrayList<>();
 	}
 
 	public int getId() {
@@ -92,14 +116,12 @@ public class Usuario implements Serializable {
 
 	public Partida addPartida(Partida partida) {
 		getPartidas().add(partida);
-		partida.setUsuario(this);
 
 		return partida;
 	}
 
 	public Partida removePartida(Partida partida) {
 		getPartidas().remove(partida);
-		partida.setUsuario(null);
 
 		return partida;
 	}
