@@ -148,14 +148,7 @@ public class MyboardplaysApiRest {
 
 	@PostMapping ("/partida/alta")
 	public Partida altaPartida (@RequestBody Partida partida){
-		Partida partidaCreador = new Partida();
-		partidaCreador.setId(pdao.obtenerUltimoIdLibre()+1);
-		partidaCreador.setUsuario(partida.getUsuario());
-		partidaCreador.setUbicacion(partida.getUbicacion());
-		partidaCreador.setFecha(partida.getFecha());
-		//partidaCreador.setJuego(jdao.buscarJuegoPorNombre(partida.getNombre()));
-		partidaCreador.setDuracion(partida.getDuracion());
-		pdao.altaPartida(partidaCreador);
+		pdao.altaPartida(partida);
 		return partida;
 	}
 	
@@ -166,9 +159,13 @@ public class MyboardplaysApiRest {
 	}
 	
 	@DeleteMapping ("partida/eliminar/{id}")
-	public String modificarPartida (@PathVariable int idPartida) {
-		pdao.eliminarPartida(idPartida);
-		return "Partida eliminada";
+	public ResponseEntity<String> eliminarPartida(@PathVariable("id") int idPartida) {
+		 Partida partidas = pdao.consultarPartida(idPartida);
+		 if(partidas == null) {
+			 return new ResponseEntity<String>("No se ha encontrado la partida", HttpStatus.NOT_FOUND);
+		 }
+		 pdao.eliminarPartida(idPartida);
+			 return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	
