@@ -159,9 +159,13 @@ public class MyboardplaysApiRest {
 	}
 	
 	@DeleteMapping ("partida/eliminar/{id}")
-	public String modificarPartida (@PathVariable int idPartida) {
-		pdao.eliminarPartida(idPartida);
-		return "Partida eliminada";
+	public ResponseEntity<String> eliminarPartida(@PathVariable("id") int idPartida) {
+		 Partida partidas = pdao.consultarPartida(idPartida);
+		 if(partidas == null) {
+			 return new ResponseEntity<String>("No se ha encontrado la partida", HttpStatus.NOT_FOUND);
+		 }
+		 pdao.eliminarPartida(idPartida);
+			 return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	
