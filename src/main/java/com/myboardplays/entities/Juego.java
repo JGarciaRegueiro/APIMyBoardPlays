@@ -113,17 +113,4 @@ public class Juego implements Serializable {
 				+ maxParticipantes + ", minParticipantes=" + minParticipantes + ", nombre=" + nombre ;
 	}
 
-	public Object getPartidas() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void setPartidas(Object partidas) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	
-
 }

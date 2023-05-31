@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -42,7 +43,7 @@ public class Partida implements Serializable {
 	private Usuario creador;
 	
 	//bi-directional many-to-one association to Usuario
-	@ManyToMany( cascade={CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE})
 		@JoinTable(
 				name="usuariospartidas",
 				joinColumns={@JoinColumn(name="id_partida")},
@@ -51,6 +52,7 @@ public class Partida implements Serializable {
 	private List<Usuario> usuario;
 
 	public Partida() {
+		this.usuario = new ArrayList<>();
 	}
 
 	public int getId() {
@@ -120,6 +122,26 @@ public class Partida implements Serializable {
 	public String toString() {
 		return "Partida [id=" + id + ", duracion=" + duracion + ", fecha=" + fecha + ", ubicacion=" + ubicacion
 				+ ", juego=" + juego + ", usuario=" + creador + "]";
+	}
+	
+	public List<Usuario> getUsuario() {
+		return this.usuario;
+	}
+
+	public void setPartidas(List<Usuario> usuario) {
+		this.usuario = usuario;
+	}
+
+	public Usuario addUsuario(Usuario usuario) {
+		getUsuario().add(usuario);
+
+		return usuario;
+	}
+
+	public Usuario removeUsuario(Usuario usuario) {
+		getUsuario().remove(usuario);
+
+		return usuario;
 	}
 
 	

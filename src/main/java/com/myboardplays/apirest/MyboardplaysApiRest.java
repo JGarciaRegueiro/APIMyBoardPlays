@@ -111,7 +111,6 @@ public class MyboardplaysApiRest {
 		juegos.setDescripcion(detallesJuego.getDescripcion());
 		juegos.setMaxParticipantes(detallesJuego.getMaxParticipantes());
 		juegos.setMinParticipantes(detallesJuego.getMinParticipantes());
-		juegos.setPartidas(detallesJuego.getPartidas());
 		juegos.setDificultad(detallesJuego.getDificultad());
 	
 		altaJuego(juegos);
