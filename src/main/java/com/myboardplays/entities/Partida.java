@@ -50,6 +50,18 @@ public class Partida implements Serializable {
 				inverseJoinColumns={@JoinColumn(name="id_usuario")}
 		)
 	private List<Usuario> jugadores;
+	
+	@ManyToOne
+	@JoinColumn(name="id_ganador")
+	private Usuario ganador;
+
+	public Usuario getGanador() {
+		return ganador;
+	}
+
+	public void setGanador(Usuario ganador) {
+		this.ganador = ganador;
+	}
 
 	public Partida() {
 		this.jugadores = new ArrayList<>();
@@ -109,6 +121,13 @@ public class Partida implements Serializable {
 	}
 
 	@Override
+	public String toString() {
+		return "Partida [id=" + id + ", duracion=" + duracion + ", fecha=" + fecha + ", ubicacion=" + ubicacion
+				+ ", juego=" + juego + ", creador=" + creador + ", jugadores=" + jugadores + ", ganador=" + ganador
+				+ "]";
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -118,11 +137,7 @@ public class Partida implements Serializable {
 		return id == other.id;
 	}
 
-	@Override
-	public String toString() {
-		return "Partida [id=" + id + ", duracion=" + duracion + ", fecha=" + fecha + ", ubicacion=" + ubicacion
-				+ ", juego=" + juego + ", usuario=" + creador + "]";
-	}
+
 	
 	public List<Usuario> getJugadores() {
 		return this.jugadores;
