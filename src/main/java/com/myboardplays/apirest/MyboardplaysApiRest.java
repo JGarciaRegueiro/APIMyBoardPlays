@@ -163,8 +163,8 @@ public class MyboardplaysApiRest {
 		return partida;
 	}
 	
-	@PostMapping ("/partida/modificar")
-	public Partida modificarPartida (Partida partida) {
+	@PutMapping ("/partida/modificar")
+	public Partida modificarPartida (@RequestBody Partida partida) {
 		pdao.modificarPartida(partida);
 		return partida;
 	}
