@@ -58,11 +58,22 @@ public class MyboardplaysApiRest {
 		return usuario;
 	}
 	
-	@PutMapping ("/usuario/modificar")
-	public Usuario modificarUsuario (Usuario usuario) {
-		udao.modificarUsuario(usuario);
-		return usuario;
-	}
+	@PutMapping ("/usuario/modificar/{idUsuario}")
+	public ResponseEntity<String> modificarUsuario(@PathVariable int idUsuario, @RequestBody Usuario detallesUsuario) {
+		Usuario usuarios = udao.consultarUsuario(idUsuario);
+		 if(usuarios == null) {
+			 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("el usuario no se ha encontrado");}
+		
+		 usuarios.setId(detallesUsuario.getId());
+		 usuarios.setNombre(detallesUsuario.getNombre());
+		 usuarios.setEmail(detallesUsuario.getEmail());
+		 usuarios.setPass(new BCryptPasswordEncoder().encode(usuarios.getPass()));
+		 usuarios.setFechaAlta(detallesUsuario.getFechaAlta());
+
+		altaUsuario(usuarios);
+		
+		return ResponseEntity.ok(null);
+		}
 	
 	@DeleteMapping("/usuario/eliminar/{idUsuario}")
 	public ResponseEntity<String> eliminarUsuario(@PathVariable int idUsuario) {
