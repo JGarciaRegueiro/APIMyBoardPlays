@@ -49,10 +49,10 @@ public class Partida implements Serializable {
 				joinColumns={@JoinColumn(name="id_partida")},
 				inverseJoinColumns={@JoinColumn(name="id_usuario")}
 		)
-	private List<Usuario> usuario;
+	private List<Usuario> jugadores;
 
 	public Partida() {
-		this.usuario = new ArrayList<>();
+		this.jugadores = new ArrayList<>();
 	}
 
 	public int getId() {
@@ -124,24 +124,24 @@ public class Partida implements Serializable {
 				+ ", juego=" + juego + ", usuario=" + creador + "]";
 	}
 	
-	public List<Usuario> getUsuario() {
-		return this.usuario;
+	public List<Usuario> getJugadores() {
+		return this.jugadores;
 	}
 
-	public void setPartidas(List<Usuario> usuario) {
-		this.usuario = usuario;
+	public void setPartidas(List<Usuario> jugadores) {
+		this.jugadores = jugadores;
 	}
 
-	public Usuario addUsuario(Usuario usuario) {
-		getUsuario().add(usuario);
+	public Usuario addJugadores(Usuario jugadores ) {
+		getJugadores().add(jugadores);
 
-		return usuario;
+		return jugadores;
 	}
 
-	public Usuario removeUsuario(Usuario usuario) {
-		getUsuario().remove(usuario);
+	public Usuario removeUsuario(Usuario jugadores) {
+		getJugadores().remove(jugadores);
 
-		return usuario;
+		return jugadores;
 	}
 
 	

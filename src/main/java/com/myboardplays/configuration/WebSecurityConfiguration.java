@@ -33,6 +33,8 @@ public class WebSecurityConfiguration {
 				.and()
 				.csrf().disable()
 				.authorizeRequests()
+				.antMatchers("/apirest/usuario/alta")
+				.permitAll()
 				.anyRequest()
 				.authenticated()
 				.and()
