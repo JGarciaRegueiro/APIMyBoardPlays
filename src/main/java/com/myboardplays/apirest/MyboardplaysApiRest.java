@@ -128,8 +128,7 @@ public class MyboardplaysApiRest {
 		
 		return ResponseEntity.ok(null);
 		}
-	
-	//prueba 3
+
 	
 	@DeleteMapping("/juego/eliminar/{idJuego}")
 	public ResponseEntity<String> eliminarJuego(@PathVariable int idJuego) {
