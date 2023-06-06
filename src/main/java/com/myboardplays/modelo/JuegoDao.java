@@ -11,5 +11,4 @@ public interface JuegoDao {
 	boolean altaJuego (Juego juego);
 	boolean modificarJuego (Juego juego);
 	boolean eliminarJuego (int idJuego);
-	
 }

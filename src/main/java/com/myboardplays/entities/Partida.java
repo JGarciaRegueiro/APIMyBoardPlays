@@ -2,13 +2,7 @@ package com.myboardplays.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Objects;
 
 
 /**
@@ -25,46 +19,24 @@ public class Partida implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
+	private int creador;
+
 	private int duracion;
 
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
 
+	@Column(name="id_ganador")
+	private int idGanador;
+
 	private String ubicacion;
 
-	//bi-directional many-to-one association to Juego
+	//uni-directional many-to-one association to Juego
 	@ManyToOne
 	@JoinColumn(name="id_juego")
 	private Juego juego;
 
-	//bi-directional many-to-one association to Creador
-	@ManyToOne
-	@JoinColumn(name="creador")
-	private Usuario creador;
-	
-	//bi-directional many-to-one association to Usuario
-	@ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE})
-		@JoinTable(
-				name="usuariospartidas",
-				joinColumns={@JoinColumn(name="id_partida")},
-				inverseJoinColumns={@JoinColumn(name="id_usuario")}
-		)
-	private List<Usuario> jugadores;
-	
-	@ManyToOne
-	@JoinColumn(name="id_ganador")
-	private Usuario ganador;
-
-	public Usuario getGanador() {
-		return ganador;
-	}
-
-	public void setGanador(Usuario ganador) {
-		this.ganador = ganador;
-	}
-
 	public Partida() {
-		this.jugadores = new ArrayList<>();
 	}
 
 	public int getId() {
@@ -73,6 +45,14 @@ public class Partida implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getCreador() {
+		return this.creador;
+	}
+
+	public void setCreador(int creador) {
+		this.creador = creador;
 	}
 
 	public int getDuracion() {
@@ -91,6 +71,14 @@ public class Partida implements Serializable {
 		this.fecha = fecha;
 	}
 
+	public int getIdGanador() {
+		return this.idGanador;
+	}
+
+	public void setIdGanador(int idGanador) {
+		this.idGanador = idGanador;
+	}
+
 	public String getUbicacion() {
 		return this.ubicacion;
 	}
@@ -107,24 +95,12 @@ public class Partida implements Serializable {
 		this.juego = juego;
 	}
 
-	public Usuario getCreador() {
-		return this.creador;
-	}
-
-	public void setCreador(Usuario creador) {
-		this.creador = creador;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public String toString() {
-		return "Partida [id=" + id + ", duracion=" + duracion + ", fecha=" + fecha + ", ubicacion=" + ubicacion
-				+ ", juego=" + juego + ", creador=" + creador + ", jugadores=" + jugadores + ", ganador=" + ganador
-				+ "]";
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
 	}
 
 	@Override
@@ -134,30 +110,13 @@ public class Partida implements Serializable {
 		if (!(obj instanceof Partida))
 			return false;
 		Partida other = (Partida) obj;
-		return id == other.id;
-	}
-
-
-	
-	public List<Usuario> getJugadores() {
-		return this.jugadores;
-	}
-
-	public void setPartidas(List<Usuario> jugadores) {
-		this.jugadores = jugadores;
-	}
-
-	public Usuario addJugadores(Usuario jugadores ) {
-		getJugadores().add(jugadores);
-
-		return jugadores;
-	}
-
-	public Usuario removeUsuario(Usuario jugadores) {
-		getJugadores().remove(jugadores);
-
-		return jugadores;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 	
+	
+	
+
 }

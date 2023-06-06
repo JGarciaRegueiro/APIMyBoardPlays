@@ -3,8 +3,6 @@ package com.myboardplays.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +18,7 @@ import java.util.Objects;
 @NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
@@ -35,43 +33,33 @@ public class Usuario implements Serializable {
 
 	private String pass;
 
-	//bi-directional many-to-one association to Partida
-	@ManyToMany( cascade={CascadeType.PERSIST, CascadeType.MERGE})
-		@JoinTable(
-				name="usuariospartidas"
-				, joinColumns={
-					@JoinColumn(name="id_usuario")
-					}
-				, inverseJoinColumns={
-					@JoinColumn(name="id_partida")
-					}
-				)
+	//uni-directional many-to-many association to Partida
+	@ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(
+		name="usuariospartidas"
+		, joinColumns={
+			@JoinColumn(name="id_usuario", referencedColumnName="id")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="id_partida")
+			}
+		)
 	private List<Partida> partidas;
-	
-	//bi-directional many-to-one association to Partida
-	@ManyToMany( cascade={CascadeType.PERSIST, CascadeType.MERGE})
-		@JoinTable(
-				name="usuariosjuegos"
-				, joinColumns={
-					@JoinColumn(name="id_usuario")
-					}
-				, inverseJoinColumns={
-					@JoinColumn(name="id_juego")
-					}
-				)
+
+	//uni-directional many-to-many association to Juego
+	@ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(
+		name="usuariosjuegos"
+		, joinColumns={
+			@JoinColumn(name="id_usuario", referencedColumnName="id")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="id_juego")
+			}
+		)
 	private List<Juego> juegos;
 
 	public Usuario() {
-		partidas = new ArrayList<>();
-        juegos = new ArrayList<>();
-	}
-
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getEmail() {
@@ -114,21 +102,52 @@ public class Usuario implements Serializable {
 		this.partidas = partidas;
 	}
 
-	public Partida addPartida(Partida partida) {
-		getPartidas().add(partida);
-
-		return partida;
+	public List<Juego> getJuegos() {
+		return this.juegos;
 	}
 
-	public Partida removePartida(Partida partida) {
-		getPartidas().remove(partida);
+	public void setJuegos(List<Juego> juegos) {
+		this.juegos = juegos;
+	}
 
-		return partida;
+	public int getId() {
+		return this.id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public void addJuego(Juego juego) {
+		if (juegos ==null)
+			juegos = new ArrayList<>();
+		juegos.add(juego);
+	}
+	
+	public void removeJuego(Juego juego) {
+		if (juegos ==null)
+			juegos = new ArrayList<>();
+		juegos.remove(juego);
+	}
+	
+	public void addPartida(Partida partida) {
+		if (partidas ==null)
+			partidas = new ArrayList<>();
+		partidas.add(partida);
+	}
+	
+	public void removePartida(Partida partida) {
+		if (partidas ==null)
+			partidas = new ArrayList<>();
+		partidas.remove(partida);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
 	}
 
 	@Override
@@ -138,14 +157,12 @@ public class Usuario implements Serializable {
 		if (!(obj instanceof Usuario))
 			return false;
 		Usuario other = (Usuario) obj;
-		return id == other.id;
-	}
-
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", email=" + email + ", fechaAlta=" + fechaAlta + ", nombre=" + nombre + ", pass="
-				+ pass + ", partidas=" + partidas + "]";
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 	
+	
+
 }

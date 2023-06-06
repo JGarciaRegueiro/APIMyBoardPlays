@@ -1,20 +1,15 @@
 package com.myboardplays.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import java.util.List;
 import java.util.Objects;
+
+import javax.persistence.*;
 
 
 /**
  * The persistent class for the juegos database table.
  * 
  */
-
 @Entity
 @Table(name="juegos")
 @NamedQuery(name="Juego.findAll", query="SELECT j FROM Juego j")
@@ -36,10 +31,6 @@ public class Juego implements Serializable {
 	private int minParticipantes;
 
 	private String nombre;
-	
-	// Bi-directional many-to-many association to Usuario
-	@ManyToMany(mappedBy="juegos")
-	private List<Usuario> usuarios;
 
 	public Juego() {
 	}
@@ -94,7 +85,10 @@ public class Juego implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
 	}
 
 	@Override
@@ -104,13 +98,13 @@ public class Juego implements Serializable {
 		if (!(obj instanceof Juego))
 			return false;
 		Juego other = (Juego) obj;
-		return id == other.id;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Juego [id=" + id + ", descripcion=" + descripcion + ", dificultad=" + dificultad + ", maxParticipantes="
-				+ maxParticipantes + ", minParticipantes=" + minParticipantes + ", nombre=" + nombre ;
-	}
+
+	
+	
 
 }

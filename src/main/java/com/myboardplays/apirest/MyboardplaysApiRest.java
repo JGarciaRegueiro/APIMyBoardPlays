@@ -2,6 +2,7 @@ package com.myboardplays.apirest;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.myboardplays.entities.Juego;
 import com.myboardplays.entities.Partida;
 import com.myboardplays.entities.Usuario;
+import com.myboardplays.modelo.JuegoDTO;
 import com.myboardplays.modelo.JuegoDao;
 import com.myboardplays.modelo.PartidaDao;
 import com.myboardplays.modelo.UsuarioDao;
@@ -96,6 +98,11 @@ public class MyboardplaysApiRest {
 		return jdao.consultarTodos();
 	}
 	
+	@GetMapping ("/juegosUsuario/{idUsuario}")
+	public List<Juego> consultarJuegosUsuario(@PathVariable int idUsuario){
+		return udao.consultarUsuario(idUsuario).getJuegos();
+	}
+	
 	@GetMapping ("/juego/consultar/{idJuego}")
 	public ResponseEntity<?> consultarJuego (@PathVariable int idJuego) {
 		 Juego juegos = jdao.consultarJuego(idJuego);
@@ -106,8 +113,11 @@ public class MyboardplaysApiRest {
 	}
 
 	@PostMapping ("/juego/alta")
-	public Juego altaJuego (@RequestBody Juego juego) {
-		jdao.altaJuego(juego);
+	public Juego altaJuego (@RequestBody JuegoDTO juegoDto) {
+	    Juego juego = juegoDto.getJuego();
+		Usuario usuario = juegoDto.getUsuario();
+		usuario.addJuego(juego);
+		udao.altaUsuario(usuario);
 		return juego;
 	}
 	
@@ -124,20 +134,19 @@ public class MyboardplaysApiRest {
 		juegos.setMinParticipantes(detallesJuego.getMinParticipantes());
 		juegos.setDificultad(detallesJuego.getDificultad());
 	
-		altaJuego(juegos);
+		jdao.altaJuego(juegos);
 		
 		return ResponseEntity.ok(null);
 		}
 
 	
 	@DeleteMapping("/juego/eliminar/{idJuego}")
-	public ResponseEntity<String> eliminarJuego(@PathVariable int idJuego) {
-		 Juego juegos = jdao.consultarJuego(idJuego);
-		 if(juegos == null) {
-			 return new ResponseEntity<String>("No se ha encontrado el juego", HttpStatus.NOT_FOUND);
-		 }
-		 jdao.eliminarJuego(idJuego);
-			 return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<String> eliminarJuego(@PathVariable int idJuego, @RequestBody Usuario usuario ) {
+		usuario.removeJuego(jdao.consultarJuego(idJuego));
+		udao.altaUsuario(usuario);
+		jdao.eliminarJuego(idJuego);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	/**
@@ -151,14 +160,21 @@ public class MyboardplaysApiRest {
 		return pdao.consultarTodos();
 	}
 	
+	@GetMapping ("/partidasUsuario/{idUsuario}")
+	public List<Partida> consultarPartidasUsuario(@PathVariable int idUsuario){
+		return udao.consultarUsuario(idUsuario).getPartidas();
+	}
+	
 	@GetMapping ("/partida/consultar/{id}")
 	public Partida consultarPartida (@PathVariable("id") int idPartida) {
 		return pdao.consultarPartida(idPartida);
 	}
 
-	@PostMapping (value = "/partida/alta", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping ("/partida/alta")
 	public Partida altaPartida (@RequestBody Partida partida){
-		pdao.altaPartida(partida);
+		Usuario usuario = udao.consultarUsuario(partida.getCreador());
+		usuario.addPartida(partida);
+		udao.altaUsuario(usuario);
 		return partida;
 	}
 	
@@ -169,13 +185,11 @@ public class MyboardplaysApiRest {
 	}
 	
 	@DeleteMapping ("partida/eliminar/{id}")
-	public ResponseEntity<String> eliminarPartida(@PathVariable("id") int idPartida) {
-		 Partida partidas = pdao.consultarPartida(idPartida);
-		 if(partidas == null) {
-			 return new ResponseEntity<String>("No se ha encontrado la partida", HttpStatus.NOT_FOUND);
-		 }
-		 pdao.eliminarPartida(idPartida);
-			 return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<String> eliminarPartida(@PathVariable("id") int idPartida, @RequestBody Usuario usuario) {
+		usuario.removePartida(pdao.consultarPartida(idPartida));
+		udao.altaUsuario(usuario);
+		pdao.eliminarPartida(idPartida);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	
